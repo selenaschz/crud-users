@@ -1,0 +1,151 @@
+{
+	"info": {
+		"_postman_id": "cabfccd0-699f-4b42-8be2-d4e60e445e7a",
+		"name": "Crud Users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40111111"
+	},
+	"item": [
+		{
+			"name": "Update password user",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_API_URI}}/users/679c210bfe8fea9394d3e367",
+					"host": [
+						"{{BASE_API_URI}}"
+					],
+					"path": [
+						"users",
+						"679c210bfe8fea9394d3e367"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Pepito\",\r\n  \"email\": \"pepito@gmail.com\",\r\n  \"password\": \"23432432\", \r\n  \"bio\": \"This is Pepito bio\",\r\n  \"avatar\": \"https://i.pravatar.cc/350?u=pepito@gmail.com\", \r\n  \"birthDate\": \"1992-01-09\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_API_URI}}/users",
+					"host": [
+						"{{BASE_API_URI}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get users filter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_API_URI}}/users?olderThan=18",
+					"host": [
+						"{{BASE_API_URI}}"
+					],
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "olderThan",
+							"value": "18"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_API_URI}}/users/679c210bfe8fea9394d3e367",
+					"host": [
+						"{{BASE_API_URI}}"
+					],
+					"path": [
+						"users",
+						"679c210bfe8fea9394d3e367"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_API_URI}}/users/679c210bfe8fea9394d3e367",
+					"host": [
+						"{{BASE_API_URI}}"
+					],
+					"path": [
+						"users",
+						"679c210bfe8fea9394d3e367"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_API_URI",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		}
+	]
+}
