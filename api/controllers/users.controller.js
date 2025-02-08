@@ -1,28 +1,25 @@
 const User = require("../models/user.model")
 const createError = require("http-errors")
-const bcrypt = require("bcryptjs")
 const dayjs = require("../config/dayjs.config")
 
 module.exports.update = (req, res, next) => {
     const { id } = req.params;
-    const { password } = req.body;
 
-    User.findByIdAndUpdate(id, password, {runValidators: true, new: true})
+    User.findById(id)
         .then((user) => {
-            if(!user) next(createError(404, "User not found"))
-            else {
-                // Encrypt password
-                bcrypt.hash(password, 10)
-                    .then((hash) => {
-                        user.password = hash;
-                        return user.save() // Execute pre save middleware (user.model.js)
-                    })
+            if (user) {
+                Object.assign(user, req.body);
+
+                user.save()
                     .then((user) => {
-                        res.status(201).json(user);
+                        res.json(user);
                     })
+                    .catch(next);
+            } else {
+                next(createError(404, "User not found"))
             }
         })
-        .catch((error) => next(error))
+        .catch(next);
 }
 
 module.exports.create =  (req, res, next) => {
@@ -41,26 +38,28 @@ module.exports.create =  (req, res, next) => {
 
 
 module.exports.list = (req, res, next) => {
+    const filters = {};
     const { olderThan } = req.query;
-
-    User.find()
+    
+    if(olderThan) {
+        const date = new Date()
+        // Conver olderThan to number and set it as the year
+        date.setFullYear(+olderThan);
+        filters.birthDate = {
+            // Less than older than
+            $lt: olderThan
+        }
+    }
+    User.find(filters)
         .then((users) => {
-            if(olderThan) {
-                // Date Limit -> subtract the minimum age to the current date, to obtain the date limit
-                const dateLimit = dayjs().subtract(olderThan, "year").toDate()
-
-                // Filter users -> Only older than olderThan query (dateLimit)
-                olderUsers = users.filter((user) => dateLimit >= user.birthDate)
-                res.status(200).json(olderUsers)
-            } else {
-                res.status(200).json(users)
-            }
+                res.status(200).json(users);
         })
         .catch((error) => next(error))
 }
 
 module.exports.detail = (req, res, next) => {
     const { id } = req.params;
+    
     User.findById(id)
         .then((user) => {
             if(!user) next(createError(404, "User not found"))

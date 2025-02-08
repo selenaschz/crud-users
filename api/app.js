@@ -10,8 +10,8 @@ const app = express()
 require("./config/db.config")
 
 // Middlewares
-app.use(logger("dev"))
 app.use(express.json())
+app.use(logger("dev"))
 app.use("/api/v1/", routes)
 
 // App listen
